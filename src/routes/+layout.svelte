@@ -29,10 +29,72 @@
 		</div>
 		<div class="divider m-auto"></div>
 		<h1 class="m-auto justify-center text-center">
-			| Created by <a href="https://www.stephenokita.com">Stephen Okita</a> | Code can be found
-			<a href="https://github.com/TheArctesian/Chinese-Radicals.git">here</a> | A pdf of this table
-			can be found
-			<a href="https://www.stephenokita.com/chinese-radicals.pdf">here</a> |
+			<span class="link-group">
+				<span class="icon-wrapper">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						/>
+						<path
+							d="M12,7V12L15,15"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+				</span>
+				Created by&nbsp;<a href="https://www.stephenokita.com">Stephen Okita</a>
+			</span>
+			<span class="separator">|</span>
+			<span class="link-group">
+				<span class="icon-wrapper">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10,2L8,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6C22,4.9 21.1,4 20,4H16L14,2H10Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						/>
+						<path
+							d="M12,9L9,13H15L12,17"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+				</span>
+				Code can be found&nbsp;
+				<a href="https://github.com/TheArctesian/Chinese-Radicals.git">here</a>
+			</span>
+			<span class="separator">|</span>
+			<span class="link-group">
+				<span class="icon-wrapper">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						/>
+						<path
+							d="M7,7H17M7,12H17M7,17H14"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+						/>
+					</svg>
+				</span>
+				A printable pdf of this table can be found&nbsp;
+				<a href="https://www.stephenokita.com/chinese-radicals.pdf">here</a>
+			</span>
 		</h1>
 	</div>
 
@@ -62,9 +124,51 @@
 			</svg>
 		</div>
 		<div class="divider"></div>
-		<h1>
-			Created by <a href="https://www.stephenokita.com">Stephen Okita</a>, code can be found
-			<a href="https://github.com/TheArctesian/Chinese-Radicals.git">here</a>
+		<h1 class="footer-links">
+			<span class="link-group">
+				<span class="icon-wrapper">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						/>
+						<path
+							d="M12,7V12L15,15"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+				</span>
+				Created by <a href="https://www.stephenokita.com">Stephen Okita</a>
+			</span>
+			<span class="separator">|</span>
+			<span class="link-group">
+				<span class="icon-wrapper">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10,2L8,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6C22,4.9 21.1,4 20,4H16L14,2H10Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						/>
+						<path
+							d="M12,9L9,13H15L12,17"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+				</span>
+				Code can be found
+				<a href="https://github.com/TheArctesian/Chinese-Radicals.git">here</a>
+			</span>
 		</h1>
 	</footer>
 </div>
@@ -124,7 +228,7 @@
 	}
 
 	.footer a {
-		color: #7d604c;
+		color: #7b6b56;
 		text-decoration: none;
 		position: relative;
 		transition: color 0.3s;
@@ -137,7 +241,7 @@
 		left: 0;
 		width: 100%;
 		height: 1px;
-		background-color: #7d604c;
+		background-color: #7b6b56;
 		transform: scaleX(0);
 		transform-origin: bottom right;
 		transition: transform 0.3s;
@@ -169,6 +273,38 @@
 		background-position: center;
 	}
 
+	.icon-wrapper {
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 4px;
+	}
+
+	.icon {
+		width: 16px;
+		height: 16px;
+		color: #7d604c;
+		vertical-align: middle;
+	}
+
+	.link-group {
+		display: inline-flex;
+		align-items: center;
+		white-space: nowrap;
+	}
+
+	.separator {
+		margin: 0 10px;
+		color: #d9cebb;
+	}
+
+	.footer-links {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
 	@media (max-width: 768px) {
 		.main-container {
 			padding: 1rem;
@@ -177,6 +313,20 @@
 		.footer {
 			margin-top: 2rem;
 			padding: 1rem 0;
+		}
+
+		h1 {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		.separator {
+			display: none;
+		}
+
+		.link-group {
+			margin: 5px 0;
 		}
 	}
 </style>
