@@ -93,7 +93,7 @@
 					</svg>
 				</span>
 				A printable pdf of this table can be found&nbsp;
-				<a href="https://www.stephenokita.com/chinese-radicals.pdf">here</a>
+				<a href="stephenokita-chinese-radicls.pdf">here</a>
 			</span>
 		</h1>
 	</div>
@@ -144,7 +144,7 @@
 						/>
 					</svg>
 				</span>
-				Created by <a href="https://www.stephenokita.com">Stephen Okita</a>
+				Created by&nbsp;<a href="https://www.stephenokita.com">Stephen Okita</a>
 			</span>
 			<span class="separator">|</span>
 			<span class="link-group">
@@ -166,8 +166,30 @@
 						/>
 					</svg>
 				</span>
-				Code can be found
+				Code can be found&nbsp;
 				<a href="https://github.com/TheArctesian/Chinese-Radicals.git">here</a>
+			</span>
+			<span class="separator">|</span>
+			<span class="link-group">
+				<span class="icon-wrapper">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+						/>
+						<path
+							d="M7,7H17M7,12H17M7,17H14"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+						/>
+					</svg>
+				</span>
+				A printable pdf of this table can be found&nbsp;
+				<a href="stephenokita-chinese-radicls.pdf">here</a>
 			</span>
 		</h1>
 	</footer>
