@@ -1307,7 +1307,6 @@
 		color: #3a3a3a;
 		line-height: 1.6;
 		padding: 20px;
-		max-width: 1200px;
 		margin: 0 auto;
 	}
 
@@ -1328,6 +1327,10 @@
 			20px 20px,
 			20px 20px;
 		border: 1px solid #e8e0d2;
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+		margin: 0 auto;
 	}
 
 	.title {
@@ -1349,6 +1352,7 @@
 		border: 1px solid #e0d5c5;
 		margin-top: 1rem;
 		background-color: rgba(255, 255, 255, 0.7);
+		table-layout: fixed; /* This makes columns equal width */
 	}
 
 	thead {
@@ -1360,7 +1364,7 @@
 		border-bottom: 2px solid #d9cebb;
 		color: #5a4835;
 		font-weight: bold;
-		text-align: left;
+		text-align: center; /* Center header text */
 	}
 
 	td {
@@ -1368,6 +1372,7 @@
 		border-bottom: 1px solid #e8e0d2;
 		vertical-align: middle;
 		transition: background-color 0.3s;
+		text-align: center; /* Center all cell content */
 	}
 
 	tr:nth-child(even) {
@@ -1389,7 +1394,6 @@
 		font-family: 'Noto Serif SC', serif;
 		font-size: 1.5rem;
 		color: #5a4835;
-		text-align: center;
 		width: 15%;
 	}
 
@@ -1397,7 +1401,6 @@
 		font-family: 'Noto Serif SC', serif;
 		font-size: 1.3rem;
 		color: #8c7c68;
-		text-align: center;
 		width: 20%;
 	}
 
