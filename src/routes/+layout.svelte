@@ -92,7 +92,7 @@
 						/>
 					</svg>
 				</span>
-				A printable pdf of this table can be found&nbsp;
+				A printable pdf can be found&nbsp;
 				<a href="stephenokita-chinese-radicls.pdf">here</a>
 			</span>
 		</h1>
@@ -188,7 +188,7 @@
 						/>
 					</svg>
 				</span>
-				A printable pdf of this table can be found&nbsp;
+				A printable pdf can be found&nbsp;
 				<a href="stephenokita-chinese-radicls.pdf">here</a>
 			</span>
 		</h1>
