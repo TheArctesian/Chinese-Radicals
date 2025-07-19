@@ -1,0 +1,392 @@
+{
+  "好": {
+    "pinyin": "hǎo",
+    "meaning": "good",
+    "radicals": [
+      {
+        "radical": "女",
+        "position": "left",
+        "meaning": "woman"
+      },
+      {
+        "radical": "子",
+        "position": "right",
+        "meaning": "child"
+      }
+    ],
+    "explanation": "Woman + child = good (concept of family harmony)"
+  },
+  "林": {
+    "pinyin": "lín",
+    "meaning": "forest",
+    "radicals": [
+      {
+        "radical": "木",
+        "position": "left",
+        "meaning": "tree"
+      },
+      {
+        "radical": "木",
+        "position": "right",
+        "meaning": "tree"
+      }
+    ],
+    "explanation": "Two trees together form a forest"
+  },
+  "森": {
+    "pinyin": "sēn",
+    "meaning": "dense forest",
+    "radicals": [
+      {
+        "radical": "木",
+        "position": "top",
+        "meaning": "tree"
+      },
+      {
+        "radical": "木",
+        "position": "bottom-left",
+        "meaning": "tree"
+      },
+      {
+        "radical": "木",
+        "position": "bottom-right",
+        "meaning": "tree"
+      }
+    ],
+    "explanation": "Three trees together form a dense forest"
+  },
+  "明": {
+    "pinyin": "míng",
+    "meaning": "bright, clear",
+    "radicals": [
+      {
+        "radical": "日",
+        "position": "left",
+        "meaning": "sun"
+      },
+      {
+        "radical": "月",
+        "position": "right",
+        "meaning": "moon"
+      }
+    ],
+    "explanation": "Sun + moon = brightness, illumination"
+  },
+  "休": {
+    "pinyin": "xiū",
+    "meaning": "rest",
+    "radicals": [
+      {
+        "radical": "人",
+        "position": "left",
+        "meaning": "person"
+      },
+      {
+        "radical": "木",
+        "position": "right",
+        "meaning": "tree"
+      }
+    ],
+    "explanation": "Person leaning against a tree = rest"
+  },
+  "你": {
+    "pinyin": "nǐ",
+    "meaning": "you",
+    "radicals": [
+      {
+        "radical": "人",
+        "position": "left",
+        "meaning": "person"
+      },
+      {
+        "radical": "尔",
+        "position": "right",
+        "meaning": "you (archaic)"
+      }
+    ],
+    "explanation": "Person + archaic 'you' = modern 'you'"
+  },
+  "他": {
+    "pinyin": "tā",
+    "meaning": "he/him",
+    "radicals": [
+      {
+        "radical": "人",
+        "position": "left",
+        "meaning": "person"
+      },
+      {
+        "radical": "也",
+        "position": "right",
+        "meaning": "also"
+      }
+    ],
+    "explanation": "Person + also = he/him (another person)"
+  },
+  "我": {
+    "pinyin": "wǒ",
+    "meaning": "I, me",
+    "radicals": [
+      {
+        "radical": "手",
+        "position": "left",
+        "meaning": "hand"
+      },
+      {
+        "radical": "戈",
+        "position": "right",
+        "meaning": "spear"
+      }
+    ],
+    "explanation": "Hand + spear = I, me (ancient weapon representing self)"
+  },
+  "水": {
+    "pinyin": "shuǐ",
+    "meaning": "water",
+    "radicals": [
+      {
+        "radical": "水",
+        "position": "whole",
+        "meaning": "water"
+      }
+    ],
+    "explanation": "Simple radical character representing flowing water"
+  },
+  "火": {
+    "pinyin": "huǒ",
+    "meaning": "fire",
+    "radicals": [
+      {
+        "radical": "火",
+        "position": "whole",
+        "meaning": "fire"
+      }
+    ],
+    "explanation": "Simple radical character representing flames"
+  },
+  "山": {
+    "pinyin": "shān",
+    "meaning": "mountain",
+    "radicals": [
+      {
+        "radical": "山",
+        "position": "whole",
+        "meaning": "mountain"
+      }
+    ],
+    "explanation": "Simple radical character representing mountain peaks"
+  },
+  "江": {
+    "pinyin": "jiāng",
+    "meaning": "river",
+    "radicals": [
+      {
+        "radical": "氵",
+        "position": "left",
+        "meaning": "water"
+      },
+      {
+        "radical": "工",
+        "position": "right",
+        "meaning": "work"
+      }
+    ],
+    "explanation": "Water + work = river (water that works/flows)"
+  },
+  "河": {
+    "pinyin": "hé",
+    "meaning": "river",
+    "radicals": [
+      {
+        "radical": "氵",
+        "position": "left",
+        "meaning": "water"
+      },
+      {
+        "radical": "可",
+        "position": "right",
+        "meaning": "can, able"
+      }
+    ],
+    "explanation": "Water + can/able = river (navigable water)"
+  },
+  "海": {
+    "pinyin": "hǎi",
+    "meaning": "sea, ocean",
+    "radicals": [
+      {
+        "radical": "氵",
+        "position": "left",
+        "meaning": "water"
+      },
+      {
+        "radical": "每",
+        "position": "right",
+        "meaning": "every"
+      }
+    ],
+    "explanation": "Water + every = sea (water everywhere)"
+  },
+  "湖": {
+    "pinyin": "hú",
+    "meaning": "lake",
+    "radicals": [
+      {
+        "radical": "氵",
+        "position": "left",
+        "meaning": "water"
+      },
+      {
+        "radical": "胡",
+        "position": "right",
+        "meaning": "beard, barbarous"
+      }
+    ],
+    "explanation": "Water + foreign/curved = lake (curved body of water)"
+  },
+  "心": {
+    "pinyin": "xīn",
+    "meaning": "heart",
+    "radicals": [
+      {
+        "radical": "心",
+        "position": "whole",
+        "meaning": "heart"
+      }
+    ],
+    "explanation": "Simple radical character representing the heart"
+  },
+  "思": {
+    "pinyin": "sī",
+    "meaning": "think",
+    "radicals": [
+      {
+        "radical": "田",
+        "position": "top",
+        "meaning": "field"
+      },
+      {
+        "radical": "心",
+        "position": "bottom",
+        "meaning": "heart"
+      }
+    ],
+    "explanation": "Field + heart = think (cultivating thoughts in the mind)"
+  },
+  "想": {
+    "pinyin": "xiǎng",
+    "meaning": "think, want",
+    "radicals": [
+      {
+        "radical": "相",
+        "position": "top",
+        "meaning": "mutual, each other"
+      },
+      {
+        "radical": "心",
+        "position": "bottom",
+        "meaning": "heart"
+      }
+    ],
+    "explanation": "Mutual/appearance + heart = think/want (heart considering)"
+  },
+  "愛": {
+    "pinyin": "ài",
+    "meaning": "love",
+    "radicals": [
+      {
+        "radical": "爫",
+        "position": "top",
+        "meaning": "claw"
+      },
+      {
+        "radical": "冖",
+        "position": "middle-top",
+        "meaning": "cover"
+      },
+      {
+        "radical": "心",
+        "position": "middle",
+        "meaning": "heart"
+      },
+      {
+        "radical": "夊",
+        "position": "bottom",
+        "meaning": "go slowly"
+      }
+    ],
+    "explanation": "Complex character representing love with heart at center"
+  },
+  "人": {
+    "pinyin": "rén",
+    "meaning": "person",
+    "radicals": [
+      {
+        "radical": "人",
+        "position": "whole",
+        "meaning": "person"
+      }
+    ],
+    "explanation": "Simple radical character representing a person"
+  },
+  "大": {
+    "pinyin": "dà",
+    "meaning": "big",
+    "radicals": [
+      {
+        "radical": "大",
+        "position": "whole",
+        "meaning": "big"
+      }
+    ],
+    "explanation": "Simple radical character representing something big (person with arms spread)"
+  },
+  "小": {
+    "pinyin": "xiǎo",
+    "meaning": "small",
+    "radicals": [
+      {
+        "radical": "小",
+        "position": "whole",
+        "meaning": "small"
+      }
+    ],
+    "explanation": "Simple radical character representing something small"
+  },
+  "口": {
+    "pinyin": "kǒu",
+    "meaning": "mouth",
+    "radicals": [
+      {
+        "radical": "口",
+        "position": "whole",
+        "meaning": "mouth"
+      }
+    ],
+    "explanation": "Simple radical character representing a mouth"
+  },
+  "目": {
+    "pinyin": "mù",
+    "meaning": "eye",
+    "radicals": [
+      {
+        "radical": "目",
+        "position": "whole",
+        "meaning": "eye"
+      }
+    ],
+    "explanation": "Simple radical character representing an eye"
+  },
+  "手": {
+    "pinyin": "shǒu",
+    "meaning": "hand",
+    "radicals": [
+      {
+        "radical": "手",
+        "position": "whole",
+        "meaning": "hand"
+      }
+    ],
+    "explanation": "Simple radical character representing a hand"
+  }
+}

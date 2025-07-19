@@ -1,0 +1,66 @@
+# Docker Compose for Chinese Radical Analyzer - Development
+version: '3.8'
+
+services:
+  # Python API Backend
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: chinese-radicals-api-dev
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount source code for hot reloading in development
+      - ./api:/app
+      - /app/venv  # Exclude virtual environment
+    environment:
+      - PYTHONPATH=/app
+      - FASTAPI_ENV=development
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - chinese-radicals-network
+
+  # SvelteKit Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://api:8000
+    container_name: chinese-radicals-frontend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source code for hot reloading in development
+      - .:/app
+      - /app/node_modules  # Exclude node_modules
+      - /app/.svelte-kit   # Exclude build directory
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8000  # For browser access
+    command: ["sh", "-c", "if [ -f yarn.lock ]; then yarn dev --host 0.0.0.0 --port 3000; else npm run dev -- --host 0.0.0.0 --port 3000; fi"]
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - chinese-radicals-network
+
+networks:
+  chinese-radicals-network:
+    driver: bridge
+    name: chinese-radicals-network
+
+volumes:
+  api_data:
+    name: chinese-radicals-api-data
+  frontend_data:
+    name: chinese-radicals-frontend-data

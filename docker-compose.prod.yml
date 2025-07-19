@@ -1,0 +1,99 @@
+# Docker Compose for Chinese Radical Analyzer - Production
+version: '3.8'
+
+services:
+  # Python API Backend
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: chinese-radicals-api-prod
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - FASTAPI_ENV=production
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+    restart: always
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - chinese-radicals-network
+
+  # SvelteKit Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://api:8000
+    container_name: chinese-radicals-frontend-prod
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=http://localhost:8000  # For browser access
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - chinese-radicals-network
+
+  # Nginx Reverse Proxy (Optional - for production deployment)
+  nginx:
+    image: nginx:alpine
+    container_name: chinese-radicals-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro  # SSL certificates (if using HTTPS)
+    depends_on:
+      - frontend
+      - api
+    restart: always
+    networks:
+      - chinese-radicals-network
+
+networks:
+  chinese-radicals-network:
+    driver: bridge
+    name: chinese-radicals-network
+
+volumes:
+  api_data:
+    name: chinese-radicals-api-data
+  frontend_data:
+    name: chinese-radicals-frontend-data
