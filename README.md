@@ -37,8 +37,10 @@ You can preview the production build with `npm run preview`.
 
 ## Character breakdown data
 
-The breakdown box above the table splits a character into its components using
-Ideographic Description Sequences. Two generated files back it:
+Two panels sit above the table, both driven by Ideographic Description
+Sequences: **Character Breakdown** opens one character up as a tree, and
+**Sentence Transliteration** spells out a whole passage at once (as components,
+pinyin, or English meanings). Two generated files back them:
 
 - `static/data/ids.txt` — character → decomposition, from the
   [CJKVI/CHISE IDS database](https://github.com/cjkvi/cjkvi-ids)

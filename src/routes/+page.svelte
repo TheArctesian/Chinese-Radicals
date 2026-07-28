@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Decomposer from '$lib/Decomposer.svelte';
+	import SentenceTransliterator from '$lib/SentenceTransliterator.svelte';
 	import { radicals } from '$lib/radicals';
 
 	let highlighted = $state<number | null>(null);
@@ -20,6 +21,8 @@
 	<h1 class="title">Chinese Radical Table</h1>
 
 	<Decomposer onradical={showInTable} />
+
+	<SentenceTransliterator onradical={showInTable} />
 
 	<table>
 		<thead>

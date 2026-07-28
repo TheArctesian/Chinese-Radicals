@@ -45,6 +45,7 @@ export interface Part {
 const MAX_DEPTH = 6;
 
 let loading: Promise<void> | null = null;
+let ready = false;
 let idsMap: Map<string, string> = new Map();
 let readingMap: Map<string, Reading> = new Map();
 
@@ -68,6 +69,8 @@ export function loadData(fetcher: typeof fetch = fetch): Promise<void> {
 				const [char, pinyin, gloss] = line.split('\t');
 				if (char) readingMap.set(char, { pinyin: pinyin ?? '', gloss: gloss ?? '' });
 			}
+
+			ready = true;
 		})().catch((err) => {
 			loading = null; // let the next attempt retry
 			throw err;
@@ -205,4 +208,136 @@ export function radicalsIn(part: Part): Radical[] {
 export function leavesOf(part: Part): Part[] {
 	if (!part.children.length) return part.char || part.unencoded ? [part] : [];
 	return part.children.flatMap(leavesOf);
+}
+
+/** One component in a character's transliteration. */
+export interface Token {
+	char: string;
+	radical: Radical | null;
+	reading: Reading | null;
+	unencoded: boolean;
+}
+
+export interface Transliteration {
+	char: string;
+	reading: Reading | null;
+	/** Set when the character is itself one of the 214 radicals. */
+	radical: Radical | null;
+	/** The components it spells out, left to right, top to bottom. */
+	tokens: Token[];
+	/** True when the data has no breakdown, so the character stands alone. */
+	atomic: boolean;
+}
+
+const transliterations = new Map<string, Transliteration>();
+
+/**
+ * A character as its constituent components. Unlike `decompose`, this flattens
+ * the tree — a radical is a component, not something to open up further.
+ * Results are memoised, so running over a long text stays cheap.
+ */
+export function transliterate(char: string): Transliteration {
+	const cached = transliterations.get(char);
+	if (cached) return cached;
+
+	const radical = radicalByForm.get(char) ?? null;
+	const tree = decompose(char);
+	const leaves = radical ? [] : leavesOf(tree);
+	const result: Transliteration = {
+		char,
+		reading: getReading(char),
+		radical,
+		// A radical spells itself; anything else spells out its leaf components.
+		tokens: (leaves.length ? leaves : [tree]).map((leaf) => ({
+			char: leaf.char,
+			radical: leaf.radical,
+			reading: leaf.reading,
+			unencoded: leaf.unencoded
+		})),
+		atomic: !radical && !leaves.length
+	};
+
+	// Don't memoise anything worked out before the data landed.
+	if (ready) transliterations.set(char, result);
+	return result;
+}
+
+export type TokenFormat = 'chars' | 'pinyin' | 'english';
+
+/** Render one character's components as text, e.g. `言+身+寸`. */
+export function formatTokens(tokens: Token[], format: TokenFormat): string {
+	return tokens
+		.map((token) => {
+			if (token.unencoded || !token.char) return '?';
+			if (format === 'chars') return token.char;
+			if (format === 'english') return token.radical?.english ?? token.char;
+			return token.radical?.pinyin ?? token.reading?.pinyin ?? token.char;
+		})
+		.join('+');
+}
+
+/** A run of text: either a character to break down, or anything else verbatim. */
+export type Segment =
+	| { kind: 'char'; transliteration: Transliteration }
+	| { kind: 'text'; text: string };
+
+export interface TextBreakdown {
+	segments: Segment[];
+	/** Distinct characters covered, in first-seen order. */
+	characters: Transliteration[];
+	/** How many Han characters were left out because of `limit`. */
+	skipped: number;
+}
+
+/**
+ * Walk a whole sentence or paragraph, keeping punctuation and spacing in place.
+ * `limit` caps how many Han characters are processed so a huge paste cannot
+ * lock up the page; the remainder is reported as `skipped`.
+ */
+export function transliterateText(text: string, limit = 400): TextBreakdown {
+	const segments: Segment[] = [];
+	const characters: Transliteration[] = [];
+	const seen = new Set<string>();
+	let processed = 0;
+	let skipped = 0;
+
+	for (const char of text) {
+		if (!isHan(char)) {
+			const last = segments.at(-1);
+			if (last?.kind === 'text') last.text += char;
+			else segments.push({ kind: 'text', text: char });
+			continue;
+		}
+
+		if (processed >= limit) {
+			skipped++;
+			continue;
+		}
+		processed++;
+
+		const transliteration = transliterate(char);
+		segments.push({ kind: 'char', transliteration });
+		if (!seen.has(char)) {
+			seen.add(char);
+			characters.push(transliteration);
+		}
+	}
+
+	return { segments, characters, skipped };
+}
+
+/** Radicals used across a breakdown, most frequent first. */
+export function radicalTally(breakdown: TextBreakdown): { radical: Radical; count: number }[] {
+	const counts = new Map<Radical, number>();
+	for (const segment of breakdown.segments) {
+		if (segment.kind !== 'char') continue;
+		const { radical, tokens } = segment.transliteration;
+		const used = radical ? [radical] : tokens.map((t) => t.radical);
+		for (const entry of used) {
+			if (entry) counts.set(entry, (counts.get(entry) ?? 0) + 1);
+		}
+	}
+	return [...counts]
+		.map(([radical, count]) => ({ radical, count }))
+		.sort((a, b) => b.count - a.count || a.radical.number - b.radical.number);
 }
