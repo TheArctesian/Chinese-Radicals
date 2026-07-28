@@ -60,12 +60,14 @@ export function loadData(fetcher: typeof fetch = fetch): Promise<void> {
 
 			idsMap = new Map();
 			for (const line of ids.split('\n')) {
+				if (!line || line.startsWith('#')) continue;
 				const tab = line.indexOf('\t');
 				if (tab > 0) idsMap.set(line.slice(0, tab), line.slice(tab + 1));
 			}
 
 			readingMap = new Map();
 			for (const line of readings.split('\n')) {
+				if (!line || line.startsWith('#')) continue;
 				const [char, pinyin, gloss] = line.split('\t');
 				if (char) readingMap.set(char, { pinyin: pinyin ?? '', gloss: gloss ?? '' });
 			}
@@ -77,6 +79,36 @@ export function loadData(fetcher: typeof fetch = fetch): Promise<void> {
 		});
 	}
 	return loading;
+}
+
+let loadingExamples: Promise<void> | null = null;
+let exampleMap: Map<number, string[]> = new Map();
+
+/**
+ * Fetch the reverse index: which characters are built from each radical. Kept
+ * separate from `loadData` so the table only pays for it when someone asks.
+ */
+export function loadRadicalExamples(fetcher: typeof fetch = fetch): Promise<void> {
+	if (!loadingExamples) {
+		loadingExamples = (async () => {
+			const text = await fetcher('/data/radical-chars.txt').then(requireOk);
+			exampleMap = new Map();
+			for (const line of text.split('\n')) {
+				if (!line || line.startsWith('#')) continue;
+				const [number, chars] = line.split('\t');
+				if (number && chars) exampleMap.set(Number(number), [...chars]);
+			}
+		})().catch((err) => {
+			loadingExamples = null;
+			throw err;
+		});
+	}
+	return loadingExamples;
+}
+
+/** Characters built from a radical, most useful first. Requires loadRadicalExamples(). */
+export function examplesFor(number: number): string[] {
+	return exampleMap.get(number) ?? [];
 }
 
 async function requireOk(res: Response): Promise<string> {

@@ -1,3 +1,7 @@
+# char <TAB> Ideographic Description Sequence.
+# Derived from cjkvi-ids (https://github.com/cjkvi/cjkvi-ids), which takes
+# ids.txt from the CHISE project (http://www.chise.org/) under GPLv2.
+# Regenerate with `npm run data`; see README.md for terms.
 ⺀	⿱丶丶
 ⺸	⿱艹干
 ⺻	⿱肀一

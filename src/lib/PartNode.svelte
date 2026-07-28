@@ -40,7 +40,7 @@
 		<div class="meta">
 			{#if part.radical}
 				<span class="badge">
-					radical {part.radical.number} · {part.radical.pinyin} · {part.radical.english}
+					radical {part.radical.number} · {part.radical.pinyin} · {part.radical.meanings.join(', ')}
 				</span>
 			{:else if part.unencoded}
 				<span class="note">component with no character of its own</span>

@@ -1,13 +1,59 @@
 <script lang="ts">
+	import { tick } from 'svelte';
+	import { replaceState } from '$app/navigation';
+	import { page } from '$app/state';
 	import Decomposer from '$lib/Decomposer.svelte';
 	import SentenceTransliterator from '$lib/SentenceTransliterator.svelte';
+	import { examplesFor, getReading, loadRadicalExamples } from '$lib/decompose';
 	import { radicals } from '$lib/radicals';
 
+	// ?c= is the character in the breakdown panel, ?q= the table filter, so any
+	// view of this page can be linked to.
+	let lookup = $state(page.url.searchParams.get('c') ?? '');
+	let filter = $state(page.url.searchParams.get('q') ?? '');
+
 	let highlighted = $state<number | null>(null);
+	let expanded = $state<number | null>(null);
+	let exampleStatus = $state<'idle' | 'loading' | 'ready' | 'error'>('idle');
 	let clearTimer: ReturnType<typeof setTimeout> | undefined;
 
+	/** Pinyin without its tone marks, so a plain-ASCII search still matches. */
+	function toneless(text: string) {
+		return text.normalize('NFD').replace(/[̀-ͯ]/g, '');
+	}
+
+	let needle = $derived(toneless(filter.trim().toLowerCase()));
+
+	let shown = $derived(
+		needle
+			? radicals.filter((r) =>
+					[
+						String(r.number),
+						toneless(r.pinyin.toLowerCase()),
+						r.radical,
+						...r.variants,
+						...r.meanings.map((m) => m.toLowerCase())
+					].some((field) => field.includes(needle))
+				)
+			: radicals
+	);
+
+	$effect(() => {
+		const url = new URL(page.url);
+		const set = (key: string, value: string) =>
+			value ? url.searchParams.set(key, value) : url.searchParams.delete(key);
+		set('c', lookup.trim());
+		set('q', filter.trim());
+		if (url.href !== page.url.href) replaceState(url, page.state);
+	});
+
 	/** Jump to a radical's row in the table and flag it briefly. */
-	function showInTable(number: number) {
+	async function showInTable(number: number) {
+		// A filtered-out row cannot be scrolled to, so clear the filter first.
+		if (!shown.some((r) => r.number === number)) {
+			filter = '';
+			await tick();
+		}
 		const row = document.getElementById(`radical-${number}`);
 		if (!row) return;
 		row.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -15,14 +61,46 @@
 		clearTimeout(clearTimer);
 		clearTimer = setTimeout(() => (highlighted = null), 2500);
 	}
+
+	/** Show or hide the characters built from a radical. */
+	async function toggleExamples(number: number) {
+		expanded = expanded === number ? null : number;
+		if (expanded === null || exampleStatus === 'ready' || exampleStatus === 'loading') return;
+		exampleStatus = 'loading';
+		try {
+			await loadRadicalExamples();
+			exampleStatus = 'ready';
+		} catch {
+			exampleStatus = 'error';
+		}
+	}
+
+	/** Send an example character up to the breakdown panel. */
+	function breakDown(char: string) {
+		lookup = char;
+		document.querySelector('.breakdown')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
 </script>
 
 <div class="container">
 	<h1 class="title">Chinese Radical Table</h1>
 
-	<Decomposer onradical={showInTable} />
+	<Decomposer bind:query={lookup} onradical={showInTable} />
 
 	<SentenceTransliterator onradical={showInTable} />
+
+	<div class="table-header">
+		<input
+			type="search"
+			class="filter"
+			placeholder="Filter by pinyin, meaning, character, or number"
+			aria-label="Filter the radical table"
+			bind:value={filter}
+		/>
+		<span class="tally">
+			{#if needle}{shown.length} of {radicals.length}{:else}{radicals.length} radicals{/if}
+		</span>
+	</div>
 
 	<table>
 		<thead>
@@ -34,16 +112,69 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each radicals as radical (radical.number)}
+			{#each shown as radical (radical.number)}
 				<tr id="radical-{radical.number}" class:highlighted={highlighted === radical.number}>
 					<td>{radical.pinyin}</td>
-					<td>{radical.radical}</td>
+					<td>
+						<button
+							class="radical-button"
+							aria-expanded={expanded === radical.number}
+							title="Characters built from {radical.radical}"
+							onclick={() => toggleExamples(radical.number)}
+						>
+							{radical.radical}
+						</button>
+					</td>
 					<td>{radical.variantLabel}</td>
-					<td>{radical.english}</td>
+					<td>
+						<span class="sense">{radical.english}</span>
+						{#if radical.meanings.length > 1}
+							<span class="also">{radical.meanings.slice(1).join(', ')}</span>
+						{/if}
+					</td>
 				</tr>
+				{#if expanded === radical.number}
+					<tr class="examples">
+						<td colspan="4">
+							{#if exampleStatus === 'loading'}
+								<span class="note">Loading characters…</span>
+							{:else if exampleStatus === 'error'}
+								<span class="note">Could not load the character list.</span>
+							{:else if examplesFor(radical.number).length}
+								<span class="note">
+									Built from {radical.radical} — click one to break it down
+								</span>
+								<span class="example-list">
+									{#each examplesFor(radical.number) as char (char)}
+										<button
+											class="example"
+											title={getReading(char)?.gloss ?? ''}
+											onclick={() => breakDown(char)}>{char}</button
+										>
+									{/each}
+								</span>
+							{:else}
+								<span class="note">No characters in the data are built from this radical.</span>
+							{/if}
+						</td>
+					</tr>
+				{/if}
 			{/each}
+			{#if !shown.length}
+				<tr>
+					<td colspan="4"><span class="note">No radical matches “{filter}”.</span></td>
+				</tr>
+			{/if}
 		</tbody>
 	</table>
+
+	<p class="sources">
+		Decompositions from the
+		<a href="https://github.com/cjkvi/cjkvi-ids">CJKVI IDS database</a>, itself derived from the
+		<a href="http://www.chise.org/">CHISE project</a> (GPLv2). Readings, glosses, and the common-use
+		ordering from the Unicode
+		<a href="https://www.unicode.org/charts/unihan.html">Unihan database</a>, © Unicode, Inc.
+	</p>
 </div>
 
 <style>
@@ -131,6 +262,105 @@
 		background-color: rgba(228, 219, 204, 0.5);
 	}
 
+	.table-header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.filter {
+		flex: 1 1 18rem;
+		font-family: inherit;
+		font-size: 0.95rem;
+		padding: 0.5rem 0.8rem;
+		color: #5a4835;
+		background: #fffdf9;
+		border: 1px solid #d9cebb;
+		border-radius: 6px;
+	}
+
+	.filter:focus {
+		outline: none;
+		border-color: #c8a97e;
+		box-shadow: 0 0 0 3px rgba(200, 169, 126, 0.2);
+	}
+
+	.tally {
+		color: #a2957f;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	/* The radical glyph doubles as the toggle for its example characters. */
+	.radical-button {
+		font-family: 'Noto Serif SC', serif;
+		font-size: inherit;
+		color: inherit;
+		background: none;
+		border: none;
+		border-radius: 4px;
+		padding: 0 0.25rem;
+		cursor: pointer;
+	}
+
+	.radical-button:hover,
+	.radical-button[aria-expanded='true'] {
+		background: #f0e2c8;
+	}
+
+	tr.examples td {
+		text-align: left;
+		background: rgba(253, 246, 233, 0.8);
+		padding: 0.75rem 1rem;
+	}
+
+	.note {
+		color: #a2957f;
+		font-style: italic;
+		font-size: 0.85rem;
+	}
+
+	.example-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		margin-top: 0.5rem;
+	}
+
+	.example {
+		font-family: 'Noto Serif SC', serif;
+		font-size: 1.3rem;
+		color: #5a4835;
+		background: #fffdf9;
+		border: 1px solid #e0d5c5;
+		border-radius: 6px;
+		padding: 0.1rem 0.4rem;
+		cursor: pointer;
+		transition:
+			background-color 0.2s,
+			box-shadow 0.2s;
+	}
+
+	.example:hover {
+		background: #f6e7cd;
+		box-shadow: 0 2px 6px rgba(90, 72, 53, 0.15);
+	}
+
+	.sources {
+		margin: 2rem 0 0;
+		padding-top: 1.25rem;
+		border-top: 1px solid #e8e0d2;
+		color: #8c7c68;
+		font-size: 0.8rem;
+		line-height: 1.6;
+	}
+
+	.sources a {
+		color: #7b6b56;
+	}
+
 	/* Flagged for a couple of seconds after a jump from the breakdown above. */
 	tbody tr.highlighted {
 		background-color: rgba(240, 226, 200, 0.9);
@@ -161,6 +391,22 @@
 	td:nth-child(4) {
 		color: #5a4835;
 		width: 50%;
+	}
+
+	/* The conventional name reads first; the other senses trail it, lighter. */
+	.sense {
+		color: #5a4835;
+	}
+
+	.also {
+		color: #8c7c68;
+		font-size: 0.9em;
+	}
+
+	.also::before {
+		content: '·';
+		color: #c4b69f;
+		margin: 0 0.4em;
 	}
 
 	/* Ink brush effect for the radical column */
@@ -228,6 +474,59 @@
 
 		td:nth-child(4) {
 			width: 60%;
+		}
+	}
+
+	/* Printing: just the table, on plain paper. */
+	@media print {
+		.container {
+			background: none;
+			border: none;
+			box-shadow: none;
+			padding: 0;
+		}
+
+		.title {
+			font-size: 1.4rem;
+			margin-bottom: 1rem;
+		}
+
+		/* The lookup panels are interactive; paper only wants the table. */
+		.table-header,
+		.sources,
+		:global(.breakdown),
+		:global(.sentence) {
+			display: none;
+		}
+
+		table {
+			background: none;
+			font-size: 9pt;
+		}
+
+		thead {
+			display: table-header-group; /* repeat the header on every page */
+		}
+
+		tr {
+			break-inside: avoid;
+			background: none !important;
+			box-shadow: none !important;
+		}
+
+		th,
+		td {
+			padding: 3pt 4pt;
+			color: #000;
+		}
+
+		.also {
+			color: #444;
+		}
+
+		.radical-button {
+			background: none;
+			padding: 0;
 		}
 	}
 </style>

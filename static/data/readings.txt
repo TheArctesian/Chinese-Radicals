@@ -1,3 +1,7 @@
+# char <TAB> pinyin <TAB> English gloss.
+# Derived from the Unicode Han Database (Unihan), (c) Unicode, Inc.,
+# used under the Unicode Terms of Use / UNICODE LICENSE V3.
+# Regenerate with `npm run data`; see README.md for terms.
 㐀	qiū	(same as 丘) hillock or mound
 㐁	tiàn	to lick; to taste, a mat, bamboo bark
 㐂		(non-standard Japanese variant of 喜), to like, love, enjoy; a joyful thing

@@ -11,20 +11,27 @@
 	} from './decompose';
 
 	interface Props {
+		/** The text being looked up. Bindable so the page can drive it from the URL. */
+		query?: string;
 		/** Called with a Kangxi radical number when a radical in the tree is clicked. */
 		onradical?: (number: number) => void;
 	}
 
-	let { onradical }: Props = $props();
+	let { query = $bindable(''), onradical }: Props = $props();
 
 	const examples = ['謝', '愛', '清', '媽', '想', '藥'];
 
-	let query = $state('');
 	let selected = $state('');
 	let status = $state<'idle' | 'loading' | 'ready' | 'error'>('idle');
 	let error = $state('');
 
 	let candidates = $derived(hanCharacters(query));
+
+	// The query can also arrive from outside — a ?c= parameter, or a click on one
+	// of the example characters under a table row.
+	$effect(() => {
+		if (candidates.length) ensureData();
+	});
 
 	// Whatever the input is, work on the character the user picked, or the first
 	// Han character they typed.
@@ -54,7 +61,6 @@
 	function onInput(value: string) {
 		query = value;
 		selected = '';
-		if (hanCharacters(value).length) ensureData();
 	}
 
 	function useExample(char: string) {

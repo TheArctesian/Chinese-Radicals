@@ -240,7 +240,7 @@
 											class="token radical"
 											onclick={() => onradical?.(t.radical!.number)}
 										>
-											{t.radical.radical} · {t.radical.pinyin} · {t.radical.english}
+											{t.radical.radical} · {t.radical.pinyin} · {t.radical.meanings.join(', ')}
 										</button>
 										<span class="itself">is a radical in its own right</span>
 									{:else if t.atomic}
@@ -253,7 +253,9 @@
 													class="token radical"
 													onclick={() => onradical?.(token.radical!.number)}
 												>
-													{token.char} · {token.radical.pinyin} · {token.radical.english}
+													{token.char} · {token.radical.pinyin} · {token.radical.meanings.join(
+														', '
+													)}
 												</button>
 											{:else}
 												<span class="token">
