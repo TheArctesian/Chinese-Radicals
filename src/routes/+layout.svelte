@@ -5,99 +5,6 @@
 </script>
 
 <div class="main-container">
-	<div class="footer m-auto gap-4">
-		<div class="seal m-auto">
-			<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-				<rect
-					width="36"
-					height="36"
-					x="2"
-					y="2"
-					fill="none"
-					stroke="#7d604c"
-					stroke-width="1"
-					rx="2"
-				/>
-				<path
-					d="M10,20 C10,14 15,10 20,10 C25,10 30,14 30,20 C30,26 25,30 20,30 C15,30 10,26 10,20 Z"
-					fill="none"
-					stroke="#7d604c"
-					stroke-width="1"
-				/>
-				<path d="M20,10 L20,30 M10,20 L30,20" stroke="#7d604c" stroke-width="1" />
-			</svg>
-		</div>
-		<div class="divider m-auto"></div>
-		<h1 class="m-auto justify-center text-center">
-			<span class="link-group">
-				<span class="icon-wrapper">
-					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path
-							d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-						/>
-						<path
-							d="M12,7V12L15,15"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						/>
-					</svg>
-				</span>
-				Created by&nbsp;<a href="https://www.stephenokita.com">Stephen Okita</a>
-			</span>
-			<span class="separator">|</span>
-			<span class="link-group">
-				<span class="icon-wrapper">
-					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path
-							d="M10,2L8,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6C22,4.9 21.1,4 20,4H16L14,2H10Z"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-						/>
-						<path
-							d="M12,9L9,13H15L12,17"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						/>
-					</svg>
-				</span>
-				Code can be found&nbsp;
-				<a href="https://github.com/TheArctesian/Chinese-Radicals.git">here</a>
-			</span>
-			<span class="separator">|</span>
-			<span class="link-group">
-				<span class="icon-wrapper">
-					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path
-							d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3Z"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-						/>
-						<path
-							d="M7,7H17M7,12H17M7,17H14"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							stroke-linecap="round"
-						/>
-					</svg>
-				</span>
-				A printable pdf can be found&nbsp;
-				<a href="stephenokita-chinese-radicls.pdf">here</a>
-			</span>
-		</h1>
-	</div>
-
 	<div class="content">
 		{@render children()}
 	</div>
@@ -124,7 +31,7 @@
 			</svg>
 		</div>
 		<div class="divider"></div>
-		<h1 class="footer-links">
+		<p class="footer-links">
 			<span class="link-group">
 				<span class="icon-wrapper">
 					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -191,7 +98,7 @@
 				A printable pdf can be found&nbsp;
 				<a href="stephenokita-chinese-radicls.pdf">here</a>
 			</span>
-		</h1>
+		</p>
 	</footer>
 </div>
 
@@ -240,7 +147,7 @@
 		background-color: #f4efe7;
 	}
 
-	.footer h1 {
+	.footer .footer-links {
 		font-size: 1rem;
 		font-weight: normal;
 		margin: 0;
@@ -337,7 +244,7 @@
 			padding: 1rem 0;
 		}
 
-		h1 {
+		.footer-links {
 			display: flex;
 			flex-direction: column;
 			gap: 8px;

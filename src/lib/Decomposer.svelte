@@ -7,6 +7,7 @@
 		leavesOf,
 		loadData,
 		radicalsIn,
+		warm,
 		type Part
 	} from './decompose';
 
@@ -82,6 +83,8 @@
 			placeholder="謝"
 			aria-label="Chinese character to break down"
 			value={query}
+			onfocus={() => warm()}
+			onpointerenter={() => warm()}
 			oninput={(e) => onInput(e.currentTarget.value)}
 		/>
 		<div class="examples">
@@ -108,7 +111,20 @@
 		</div>
 	{/if}
 
-	{#if status === 'loading'}
+	{#if status === 'idle' && !query}
+		<div class="demo">
+			<span class="demo-label">for example</span>
+			<button type="button" class="demo-line" onclick={() => useExample('謝')}>
+				<span class="demo-char">謝</span>
+				<span class="demo-equals">=</span>
+				<span class="demo-part">言 <em>speech</em></span>
+				<span class="demo-plus">+</span>
+				<span class="demo-part">身 <em>body</em></span>
+				<span class="demo-plus">+</span>
+				<span class="demo-part">寸 <em>inch</em></span>
+			</button>
+		</div>
+	{:else if status === 'loading'}
 		<p class="status">Loading character data…</p>
 	{:else if status === 'error'}
 		<p class="status error">Could not load the character data: {error}</p>
@@ -212,7 +228,7 @@
 
 	.examples-label,
 	.summary-label {
-		color: #a2957f;
+		color: #7a6c58;
 		font-size: 0.8rem;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -250,9 +266,71 @@
 		background: #f0e2c8;
 	}
 
+	.demo {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin-top: 1.5rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid #e8e0d2;
+	}
+
+	.demo-label {
+		color: #7a6c58;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.demo-line {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		font-family: inherit;
+		background: none;
+		border: none;
+		border-radius: 6px;
+		padding: 0.2rem 0.4rem;
+		cursor: pointer;
+		text-align: left;
+	}
+
+	.demo-line:hover {
+		background: #fdf6e9;
+	}
+
+	.demo-char,
+	.demo-part {
+		font-family: 'Noto Serif SC', serif;
+		color: #5a4835;
+	}
+
+	.demo-char {
+		font-size: 1.6rem;
+	}
+
+	.demo-part {
+		font-size: 1.15rem;
+	}
+
+	.demo-part em {
+		font-family: 'Noto Serif', serif;
+		font-size: 0.8rem;
+		color: #6f6353;
+		font-style: italic;
+		margin-left: 0.15rem;
+	}
+
+	.demo-equals,
+	.demo-plus {
+		color: #8a7a63;
+		font-size: 0.9rem;
+	}
+
 	.status {
 		margin: 1.25rem 0 0;
-		color: #8c7c68;
+		color: #6f6353;
 		font-style: italic;
 	}
 
@@ -299,7 +377,7 @@
 	}
 
 	.note {
-		color: #a2957f;
+		color: #7a6c58;
 		font-style: italic;
 		font-size: 0.9rem;
 	}

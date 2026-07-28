@@ -148,12 +148,12 @@
 	}
 
 	.note {
-		color: #a2957f;
+		color: #7a6c58;
 		font-style: italic;
 	}
 
 	.layout {
-		color: #8c7c68;
+		color: #6f6353;
 		font-size: 0.8rem;
 	}
 

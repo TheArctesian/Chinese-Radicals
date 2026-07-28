@@ -106,6 +106,17 @@ export function loadRadicalExamples(fetcher: typeof fetch = fetch): Promise<void
 	return loadingExamples;
 }
 
+/**
+ * Start a load without caring about the result — called when someone focuses an
+ * input or hovers a radical, so the data is usually there by the time they act.
+ */
+export function warm(what: 'data' | 'examples' = 'data'): void {
+	const load = what === 'data' ? loadData : loadRadicalExamples;
+	load().catch(() => {
+		/* the real call will surface the error */
+	});
+}
+
 /** Characters built from a radical, most useful first. Requires loadRadicalExamples(). */
 export function examplesFor(number: number): string[] {
 	return exampleMap.get(number) ?? [];

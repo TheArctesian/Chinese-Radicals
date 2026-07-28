@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 	import Decomposer from '$lib/Decomposer.svelte';
 	import SentenceTransliterator from '$lib/SentenceTransliterator.svelte';
-	import { examplesFor, getReading, loadRadicalExamples } from '$lib/decompose';
+	import { examplesFor, getReading, loadRadicalExamples, warm } from '$lib/decompose';
 	import { radicals } from '$lib/radicals';
 
 	// ?c= is the character in the breakdown panel, ?q= the table filter, so any
@@ -62,6 +62,11 @@
 		clearTimer = setTimeout(() => (highlighted = null), 2500);
 	}
 
+	/** Pull the example index down before it is needed, so expanding feels instant. */
+	function warmExamples() {
+		warm('examples');
+	}
+
 	/** Show or hide the characters built from a radical. */
 	async function toggleExamples(number: number) {
 		expanded = expanded === number ? null : number;
@@ -102,6 +107,8 @@
 		</span>
 	</div>
 
+	<p class="table-hint">Click any radical to see the characters built from it.</p>
+
 	<table>
 		<thead>
 			<tr>
@@ -120,9 +127,11 @@
 							class="radical-button"
 							aria-expanded={expanded === radical.number}
 							title="Characters built from {radical.radical}"
+							onpointerenter={warmExamples}
+							onfocus={warmExamples}
 							onclick={() => toggleExamples(radical.number)}
 						>
-							{radical.radical}
+							{radical.radical}<span class="caret" aria-hidden="true"></span>
 						</button>
 					</td>
 					<td>{radical.variantLabel}</td>
@@ -238,6 +247,15 @@
 		background-color: #f0e8dd;
 	}
 
+	/* 214 rows is a long scroll; keep the column names in view. */
+	th {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		background-color: #f0e8dd;
+		box-shadow: inset 0 -2px 0 #d9cebb;
+	}
+
 	th {
 		padding: 15px 10px;
 		border-bottom: 2px solid #d9cebb;
@@ -287,7 +305,7 @@
 	}
 
 	.tally {
-		color: #a2957f;
+		color: #7a6c58;
 		font-size: 0.8rem;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -310,6 +328,29 @@
 		background: #f0e2c8;
 	}
 
+	/* Small triangle, rotating when the row is open. */
+	.caret {
+		display: inline-block;
+		width: 0;
+		height: 0;
+		margin-left: 0.35rem;
+		vertical-align: 0.15em;
+		border-left: 0.28em solid transparent;
+		border-right: 0.28em solid transparent;
+		border-top: 0.32em solid #8a7a63;
+		transition: transform 0.2s;
+	}
+
+	.radical-button[aria-expanded='true'] .caret {
+		transform: rotate(180deg);
+	}
+
+	.table-hint {
+		margin: 0.6rem 0 0;
+		color: #7a6c58;
+		font-size: 0.85rem;
+	}
+
 	tr.examples td {
 		text-align: left;
 		background: rgba(253, 246, 233, 0.8);
@@ -317,7 +358,7 @@
 	}
 
 	.note {
-		color: #a2957f;
+		color: #7a6c58;
 		font-style: italic;
 		font-size: 0.85rem;
 	}
@@ -352,7 +393,7 @@
 		margin: 2rem 0 0;
 		padding-top: 1.25rem;
 		border-top: 1px solid #e8e0d2;
-		color: #8c7c68;
+		color: #6f6353;
 		font-size: 0.8rem;
 		line-height: 1.6;
 	}
@@ -384,13 +425,21 @@
 	td:nth-child(3) {
 		font-family: 'Noto Serif SC', serif;
 		font-size: 1.3rem;
-		color: #8c7c68;
+		color: #6f6353;
 		width: 20%;
 	}
 
 	td:nth-child(4) {
 		color: #5a4835;
 		width: 50%;
+		/* Sense lists are too long to read centred. */
+		text-align: left;
+		padding-left: 1.5rem;
+	}
+
+	th:nth-child(4) {
+		text-align: left;
+		padding-left: 1.5rem;
 	}
 
 	/* The conventional name reads first; the other senses trail it, lighter. */
@@ -399,13 +448,13 @@
 	}
 
 	.also {
-		color: #8c7c68;
+		color: #6f6353;
 		font-size: 0.9em;
 	}
 
 	.also::before {
 		content: '·';
-		color: #c4b69f;
+		color: inherit;
 		margin: 0 0.4em;
 	}
 
@@ -454,6 +503,11 @@
 
 		td:nth-child(3) {
 			font-size: 1.1rem;
+		}
+
+		td:nth-child(4),
+		th:nth-child(4) {
+			padding-left: 0.6rem;
 		}
 	}
 

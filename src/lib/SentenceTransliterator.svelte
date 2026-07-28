@@ -4,6 +4,7 @@
 		loadData,
 		radicalTally,
 		transliterateText,
+		warm,
 		type TokenFormat
 	} from './decompose';
 
@@ -102,6 +103,8 @@
 		placeholder="謝謝你的幫助"
 		aria-label="Chinese text to transliterate"
 		value={text}
+		onfocus={() => warm()}
+		onpointerenter={() => warm()}
 		oninput={(e) => update(e.currentTarget.value)}
 	></textarea>
 
@@ -344,7 +347,7 @@
 	}
 
 	.label {
-		color: #a2957f;
+		color: #7a6c58;
 		font-size: 0.8rem;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -367,7 +370,7 @@
 
 	.status {
 		margin: 1.25rem 0 0;
-		color: #8c7c68;
+		color: #6f6353;
 		font-style: italic;
 	}
 
@@ -413,7 +416,7 @@
 	}
 
 	.count {
-		color: #a2957f;
+		color: #7a6c58;
 		font-size: 0.8rem;
 	}
 
@@ -444,7 +447,7 @@
 
 	.passthrough {
 		align-self: flex-end;
-		color: #8c7c68;
+		color: #6f6353;
 		font-size: 1.1rem;
 		padding-bottom: 0.15rem;
 		white-space: pre-wrap;
@@ -489,7 +492,7 @@
 	}
 
 	.plus {
-		color: #bdae95;
+		color: #8a7a63;
 		font-size: 0.7rem;
 	}
 
@@ -574,7 +577,7 @@
 	}
 
 	.itself {
-		color: #a2957f;
+		color: #7a6c58;
 		font-style: italic;
 		font-size: 0.85rem;
 	}
@@ -615,7 +618,7 @@
 	}
 
 	.tally-count {
-		color: #a2957f;
+		color: #6b5334;
 		font-size: 0.75rem;
 	}
 
