@@ -35,4 +35,25 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
+## Character breakdown data
+
+The breakdown box above the table splits a character into its components using
+Ideographic Description Sequences. Two generated files back it:
+
+- `static/data/ids.txt` — character → decomposition, from the
+  [CJKVI/CHISE IDS database](https://github.com/cjkvi/cjkvi-ids)
+- `static/data/readings.txt` — character → pinyin and gloss, from the Unicode
+  [Unihan database](https://www.unicode.org/charts/unihan.html)
+
+They are committed, so a normal build needs nothing extra. To refresh them from
+upstream:
+
+```bash
+npm run data
+```
+
+That downloads the sources into `.cache/` (gitignored) and rewrites both files.
+The browser fetches them on the first lookup, so the table itself stays a plain
+static page.
+
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
